@@ -1113,7 +1113,7 @@ module.exports = kconfig = async (kill, message) => {
 			break		
 			
 		case 'seguidoresmundiais':
-			await kill.sendText(from, mess.seguidoresmundi(pushname, time))
+			await kill.sendText(from, mess.seguidoresmundiais(pushname, time))
 			break	
 			
 		case 'seguidoresbr':
