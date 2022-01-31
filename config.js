@@ -1112,8 +1112,7 @@ module.exports = kconfig = async (kill, message) => {
 		case 'outros':
 			await kill.sendText(from, mess.outros(pushname, time))
 			break			
-			
-		/** INSTA **/
+	
 		case 'seguidoresmundi':
 			await kill.sendText(from, mess.seguidoresmundi(pushname, time))
 			break	
@@ -1137,9 +1136,12 @@ module.exports = kconfig = async (kill, message) => {
 		case 'storys':
 			await kill.sendText(from, mess.storys(pushname, time))
 			break
-		/** INSTA **/
+	
 			
-		/** Tiktok **/
+		case 'tiktok':
+			await kill.sendText(from, mess.tiktok(pushname, time))
+			break
+			
 		case 'segtitok':
 			await kill.sendText(from, mess.tiktok1(pushname, time))
 			break
