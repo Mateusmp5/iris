@@ -1121,7 +1121,7 @@ module.exports = kconfig = async (kill, message) => {
 			break
 		
 		case 'reels':
-			await kill.sendText(from, mess.faq(pushname, time))
+			await kill.sendText(from, mess.reels(pushname, time))
 			break
 			
 		case 'reelslike':
