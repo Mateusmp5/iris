@@ -845,7 +845,7 @@ module.exports = kconfig = async (kill, message) => {
 			
         case 'menu':
 		const mping = processTime(t, moment())
-		await kill.sendText(from, mess.menu(pushname, time, theMsg, uzrXp, uneedxp, uzrlvl, mping, patente))
+		await kill.sendText(from, mess.menu(pushname, time))
             break
 			
 	
