@@ -1,5 +1,3 @@
-
-   
 /* ----------- VERY IMPORTANT NOTICE - AVISO MUITO IMPORTANTE - AVISO MUY IMPORTANTE ------------------
 *
 * Construído por Lucas R. - KillovSky, agradecimentos especiais ao grupo Legião Z.
@@ -9,7 +7,7 @@
 * Leia mais em http://escolhaumalicenca.com.br/licencas/mit/ ou no comando /termos.
 *
 * Desculpe pelos comandos que estão em "inglês" como o "/groupinfo", amo o inglês! 
-* Então os programo dessa forma. (Desconheco palavras suficientes em português) :'D
+* Então os programo dessa forma. (Desconheço palavras suficientes em português) :'D
 *
 * Plagiar meus comandos não te torna coder, vá estudar, não seja um ladrão miserável.
 * Levei meses nesse projeto e não paro de me empenhar em deixar todos felizes.
@@ -20,7 +18,7 @@
 *
 * Obrigado a todos que me apoiam, que não roubam isso, que pegam e põem os créditos e...
 *
-* 						Obrigado a você que escolheu a Íris.
+*						Obrigado a você que escolheu a Íris.
 *
 * ---------------------------------------------------------------------------------------------------*/
 
@@ -32,12 +30,12 @@ const math = require('mathjs')
 const { search } = require("simple-play-store-search")
 const google = require('google-it')
 const isPorn = require('is-porn')
-const imgsearch = require('node-reverse-image-search')
 const moment = require('moment-timezone')
 const sinesp = require('sinesp-api')
 const { Aki } = require('aki-api')
 const request = require('request')
-const canvas = require('canvacord')
+const canvacord = require('canvacord')
+const canvas = require('canvas')
 const ffmpeg = require('fluent-ffmpeg')
 const { spawn, exec, execFile } = require('child_process')
 const nhentai = require('nhentai-js')
@@ -53,321 +51,321 @@ const tts = require('node-gtts')
 const brainly = require('brainly-scraper-v2')
 const deepai = require('deepai')
 const wiki = require("@dada513/wikipedia-search")
-const { EmojiAPI } = require("emoji-api");
+const { EmojiAPI } = require("emoji-api")
 const os = require('os')
 const puppeteer = require('puppeteer')
 const { XVDL } = require("xvdl")
+const youtubedl = require('youtube-dl-exec')
+const sharp = require('sharp')
+const acrcloud = require("acrcloud")
+const Pokemon = require('pokemon.js')
+
+// Bomber, se desejar desativar o auto-abrir navegador leia a página inicial da Íris na github
+const { bomber } = require("bomber-api")
 
 // UTILIDADES
-const { color, sleep, ss, isUrl, upload, addFilter, isFiltered, translate } = require('./lib/functions')
-const poll = require('./lib/poll')
-const config = require('./lib/config/Bot/config.json')
+const { poll, gaming, color, sleep, isUrl, upload, addFilter, isFiltered, translate, isInt } = require('./lib/functions')
+const config = require('./lib/config/Gerais/config.json')
 const { mylang } = require('./lib/lang')
+const options = { headless: true, userDataDir: "./logs/Chrome/Maker", args: ['--aggressive-cache-discard', '--disable-application-cache', '--disable-cache', '--disable-offline-load-stale-cache', '--disable-setuid-sandbox', '--disk-cache-size=0', '--ignore-certificate-errors', '--no-sandbox', '--single-process'] } // Leia a functions.js para maiores detalhes
 
-// ATIVADORES & CONFIGS
-const region = config.lang
-const aki = new Aki(region)
-const akinit = async () => { try { await aki.start() } catch (error) { console.log(color('[AKI]', 'crimson'), color(`→ Obtive erros ao iniciar o akinator → ${error.message} - Você pode ignorar.`, 'gold')) } }
-akinit()
-const cd = 0.18e+7
-const mess = mylang()
-moment.tz.setDefault('America/Sao_Paulo').locale('pt_BR')
-const emoji = new EmojiAPI();
-var jogadas = 0
+// JSON'S
+const functions = JSON.parse(fs.readFileSync('./lib/config/Gerais/functions.json'))
+const ctmprefix = JSON.parse(fs.readFileSync('./lib/config/Gerais/prefix.json'))
+const nivel = JSON.parse(fs.readFileSync('./lib/config/Gerais/level.json'))
+const custom = JSON.parse(fs.readFileSync('./lib/config/Gerais/custom.json'))
+const cmds = JSON.parse(fs.readFileSync('./lib/config/Gerais/cmds.json'))
+const hail = JSON.parse(fs.readFileSync('./lib/config/Gerais/greetings.json'))
+const guildlimit = JSON.parse(fs.readFileSync('./lib/config/Gerais/limit.json'))
 
-// JSON'S 
-const nsfw_ = JSON.parse(fs.readFileSync('./lib/config/Grupos/NSFW.json'))
-const welkom = JSON.parse(fs.readFileSync('./lib/config/Grupos/welcome.json'))
-const atporn = JSON.parse(fs.readFileSync('./lib/config/Grupos/antiporn.json'))
-const bklist = JSON.parse(fs.readFileSync('./lib/config/Grupos/blacklist.json'))
-const xp = JSON.parse(fs.readFileSync('./lib/config/Grupos/xp.json'))
-const nivel = JSON.parse(fs.readFileSync('./lib/config/Bot/level.json'))
-const atbk = JSON.parse(fs.readFileSync('./lib/config/Bot/anti.json'))
-const daily = JSON.parse(fs.readFileSync('./lib/config/Bot/diario.json'))
-const faki = JSON.parse(fs.readFileSync('./lib/config/Grupos/fake.json'))
-const slce = JSON.parse(fs.readFileSync('./lib/config/Bot/silence.json'))
-const atstk = JSON.parse(fs.readFileSync('./lib/config/Grupos/sticker.json'))
-const msgcount = JSON.parse(fs.readFileSync('./lib/config/Bot/msgcount.json'))
-const atlinks = JSON.parse(fs.readFileSync('./lib/config/Grupos/antilinks.json'))
+// ATIVADORES & CONFIGS EXTRAS
+Pokemon.setLanguage('english');var region = config.Language
+const aki = new Aki(region);const akinit = async () => { await aki.start() }
+akinit().catch((error) => { console.log(color('[AKI]', 'crimson'), color(`→ Obtive erros ao iniciar o akinator → ${error.message}.`, 'gold')) })
+var mess = mylang(region);moment.tz.setDefault('America/Sao_Paulo').locale('pt_BR')
+const emoji = new EmojiAPI();var jogadas = 0; var isMuteAll = 0; var oneImage = 0; var oneLink = 0; var oneTrava = 0; var isTyping = []; var noLimits = 0
+axios.defaults.headers.common['User-Agent'] = config.User_Agent
+const acr = new acrcloud({ host: config.Acr_Host, access_key: config.Acr_Access, access_secret: config.Acr_Secret })
+var thePlayerGame = 0; var thePlayerGame2 = 0; var thePlayerGameOld = 0; var thePlayerGameOld2 = 0; var xjogadas = []; var ojogadas = []; var waitJogo = 0; var timesPlayed = 0; var tictacplays = ["a1", "a2", "a3", "b1", "b2", "b3", "c1", "c2", "c3"]; var tttboard = { a1: 'A1', a2: 'A2', a3: 'A3', b1: 'B1', b2: 'B2', b3: 'B3', c1: 'C1', c2: 'C2', c3: 'C3' }; var finalAwnser = 0;var isValidGame = 0
 
 module.exports = kconfig = async (kill, message) => {
 	
-    // Prefix
-    const prefix = config.prefix
-	
 	// Isso antes da try possibilita receber os alertas no WhatsApp
 	const { type, id, from, t, sender, author, isGroupMsg, chat, chatId, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
+	const groupId = isGroupMsg ? chat.groupMetadata.id : ''
+	var prefix = config.Prefix
+	for (let i = 0; i < ctmprefix.length; i++) { if (Object.keys(ctmprefix[i]) == groupId) { prefix = Object.values(ctmprefix[i]);break } }
 	let { body } = message
-	const ownerNumber = config.owner
+	const ownerNumber = config.Owner
 	const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
 	body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
 	const comma = body.slice(1).trim().split(/ +/).shift().toLowerCase()
 	const command = removeAccents(comma)
 	
-    try {
+	try {
 		
-		// PARAMETROS
+		// PARAMETROS & Daily
+		var daily = JSON.parse(fs.readFileSync('./lib/config/Gerais/diario.json'))
 		const { name, formattedTitle } = chat
 		let { pushname, verifiedName, formattedName } = sender
 		pushname = pushname || verifiedName || formattedName
-        const botNumber = await kill.getHostNumber()
-        const blockNumber = await kill.getBlockedIds()
-        const user = sender.id
-		const isOwner = user.includes(ownerNumber)
-        const groupId = isGroupMsg ? chat.groupMetadata.id : ''
-        const groupMembers = isGroupMsg ? await kill.getGroupMembers(groupId) : false
-        const groupAdmins = isGroupMsg ? await kill.getGroupAdmins(groupId) : ''
-        const isGroupAdmins = isGroupMsg ? groupAdmins.includes(user) : false
-        const isBotGroupAdmins = isGroupMsg ? groupAdmins.includes(botNumber + '@c.us') : false
-        const isNsfw = isGroupMsg ? nsfw_.includes(groupId) : false
-        const autoSticker = isGroupMsg ? atstk.includes(groupId) : false
-        const time = moment(t * 1000).format('DD/MM HH:mm:ss')
+		const botNumber = await kill.getHostNumber()
+		const blockNumber = await kill.getBlockedIds()
+		const user = sender.id
+		const isOwner = ownerNumber.includes(user)
+		const isBot = user === `${botNumber}@c.us`
+		const groupMembers = isGroupMsg ? await kill.getGroupMembers(groupId) : false
+		const groupMembersId = isGroupMsg ? await kill.getGroupMembersId(groupId) : false
+		const groupAdmins = isGroupMsg ? await kill.getGroupAdmins(groupId) : ''
+		const isGroupAdmins = isGroupMsg ? groupAdmins.includes(user) : false
+		const isBotGroupAdmins = isGroupMsg ? groupAdmins.includes(botNumber + '@c.us') : false
+		const isNsfw = isGroupMsg ? functions[0].nsfw.includes(groupId) : false
+		const autoSticker = isGroupMsg ? functions[0].sticker.includes(groupId) : false
+		const time = moment(t * 1000).format('DD/MM HH:mm:ss')
 		const processTime = (timestamp, now) => { return moment.duration(now - moment(timestamp * 1000)).asSeconds() }
 		const arg = body.trim().substring(body.indexOf(' ') + 1)
-        const args = body.trim().split(/ +/).slice(1)
-        const isCmd = body.startsWith(prefix)
-        const url = args.length !== 0 ? args[0] : ''
-        const uaOverride = process.env.UserAgent
-        const isBlocked = blockNumber.includes(user)
-        const isAntiPorn = isGroupMsg ? atporn.includes(groupId) : false
-        const isAntiLink = isGroupMsg ? atlinks.includes(groupId) : false
-        const isxp = isGroupMsg ? xp.includes(groupId) : false
-		const mute = isGroupMsg ? slce.includes(groupId) : false
-		const pvmte = !isGroupMsg ? slce.includes(user) : false
-        const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
-        const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
-        const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
-        const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
-        const isQuotedAudio = quotedMsg && quotedMsg.type === 'audio'
-        const isQuotedPtt = quotedMsg && quotedMsg.type === 'ptt'
-        const isImage = type === 'image'
-        const isVideo = type === 'video'
-        const isAudio = type === 'audio'
-        const isPtt = type === 'ptt'
-        const isGif = mimetype === 'image/gif'
-        const arqs = body.trim().split(' ')
-        const arks = args.join(' ')
+		const args = body.trim().split(/ +/).slice(1)
+		const isCmd = body.startsWith(prefix)
+		const url = args.length !== 0 ? args[0] : ''
+		const uaOverride = config.User_Agent
+		const isBlocked = blockNumber.includes(user)
+		const isAntiPorn = isGroupMsg ? functions[0].antiporn.includes(groupId) : false
+		const isAntiTravas = isGroupMsg ? functions[0].antitrava.includes(groupId) : false
+		const isAntiLink = isGroupMsg ? functions[0].antilinks.includes(groupId) : false
+		const isxp = isGroupMsg ? functions[0].xp.includes(groupId) : false
+		const mute = isGroupMsg ? functions[0].silence.includes(groupId) : false
+		const pvmte = !isGroupMsg ? functions[0].silence.includes(user) : false
+		const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
+		const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
+		const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
+		const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
+		const isQuotedAudio = quotedMsg && quotedMsg.type === 'audio'
+		const isQuotedPtt = quotedMsg && quotedMsg.type === 'ptt'
+		const isImage = type === 'image'
+		const isVideo = type === 'video'
+		const isAudio = type === 'audio'
+		const isPtt = type === 'ptt'
+		const isGif = mimetype === 'image/gif'
+		const arqs = body.trim().split(' ')
+		const arks = args.join(' ')
+		const isTrava = type === 'oversized'
+		const aMemberS = isGroupMsg ? groupMembers[Math.floor(Math.random() * groupMembers.length)] : user
+		const randomMember = isGroupMsg ? aMemberS.id : user
 		
 		// OUTRAS
-        const double = Math.floor(Math.random() * 2) + 1
-		const lvpc = Math.floor(Math.random() * 100) + 1
-        global.pollfile = 'poll_Config_' + groupId + '.json'
-        global.voterslistfile = 'poll_voters_Config_' + groupId + '.json'
+		const side = Math.floor(Math.random() * 2) + 1
+		var lvpc = Math.floor(Math.random() * 100) + 1
+		const lvrq = 100 - lvpc
+		const milSort = Math.floor(Math.random() * 1000) + 1
+		global.pollfile = `config_vote-${groupId.replace('@c.us', '')}.json`
+		global.voterslistfile = `vote_poll-${groupId.replace('@c.us', '')}.json`
 		const errorurl = 'https://img.wallpapersafari.com/desktop/1920/1080/19/44/evOxST.jpg'
 		const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
-		const irisMsgs = fs.readFileSync('./lib/config/Utilidades/reply.txt').toString().split('\n')
+		const irisMsgs = await fs.readFileSync('./lib/config/Utilidades/reply.txt').toString().split('\n')
 		const chatBotR = irisMsgs[Math.floor(Math.random() * irisMsgs.length)].replace('%name$', `${name}`).replace('%battery%', `${lvpc}`)
-		const lgbt = fs.readFileSync('./lib/config/Utilidades/lgbt.txt').toString().split('\n')
+		const lgbt = await fs.readFileSync('./lib/config/Utilidades/lgbt.txt').toString().split('\n')
 		const guei = lgbt[Math.floor(Math.random() * lgbt.length)]
+		const weaponC = await fs.readFileSync('./lib/config/Utilidades/armas.txt').toString().split('\n')
+		const whatWeapon = weaponC[Math.floor(Math.random() * weaponC.length)]
+		const checkLvL = await gaming.getValue(user, nivel, 'level')
+		const patente = await gaming.getPatent(checkLvL)
+		const getReqXP = (theRcvLvL) => { return Number(config.XP_Difficulty) * Math.pow(theRcvLvL, 2) * Number(config.XP_Difficulty) + 1000 }
+		const valueRand = (value) => { const valres = value[Math.floor(Math.random() * value.length)];return valres }
+		const tagsPorn = await fs.readFileSync('./lib/config/Utilidades/porn.txt').toString().split('\n')
+		const theTagPorn = tagsPorn[Math.floor(Math.random() * tagsPorn.length)]
+		const aWorldCits = await fs.readFileSync('./lib/config/Utilidades/frases.txt').toString().split('\n')
+		const theCitacion = aWorldCits[Math.floor(Math.random() * aWorldCits.length)]
+		const getBrain = await fs.readFileSync('./lib/config/Utilidades/curiosidades.txt').toString().split('\n')
+		const thisKillCats = getBrain[Math.floor(Math.random() * getBrain.length)]
+		const bibleal = await fs.readFileSync('./lib/config/Utilidades/biblia.txt').toString().split('\n')
+		const randomBible = bibleal[Math.floor(Math.random() * bibleal.length)]
+		const fml = await fs.readFileSync('./lib/config/Utilidades/fml.txt').toString().split('\n')
+		const fmylife = fml[Math.floor(Math.random() * fml.length)]
+		const letmeHpy = await fs.readFileSync('./lib/config/Utilidades/cantadas.txt').toString().split('\n')
+		const getHappyness = letmeHpy[Math.floor(Math.random() * letmeHpy.length)]
+		const neverT = await fs.readFileSync('./lib/config/Utilidades/never.txt').toString().split('\n')
+		const getNeverland = neverT[Math.floor(Math.random() * neverT.length)]
+		const getChifre = await fs.readFileSync('./lib/config/Utilidades/corno.txt').toString().split('\n')
+		const howGado = getChifre[Math.floor(Math.random() * getChifre.length)]
 		
-		// Sobe patente por nivel, mude pro que quiser dentro das aspas, não esqueca do case ranking
-        const check = getLevel(user, nivel)
-		var patente = 'Cobre'
-		if (check <= 4) {
-			patente = 'Bronze I'
-		} else if (check <= 10) {
-			patente = 'Bronze II'
-		} else if (check <= 15) {
-			patente = 'Bronze III'
-		} else if (check <= 20) {
-			patente = 'Bronze IV'
-		} else if (check <= 25) {
-			patente = 'Bronze V'
-		} else if (check <= 30) {
-			patente = 'Prata I'
-		} else if (check <= 35) {
-			patente = 'Prata II'
-		} else if (check <= 40) {
-			patente = 'Prata III'
-		} else if (check <= 45) {
-			patente = 'Prata IV'
-		} else if (check <= 50) {
-			patente = 'Prata V'
-		} else if (check <= 55) {
-			patente = 'Ouro I'
-		} else if (check <= 60) {
-			patente = 'Ouro II'
-		} else if (check <= 65) {
-			patente = 'Ouro III'
-		} else if (check <= 70) {
-			patente = 'Ouro IV'
-		} else if (check <= 75) {
-			patente = 'Ouro V'
-		} else if (check <= 80) {
-			patente = 'Diamante I'
-		} else if (check <= 85) {
-			patente = 'Diamante II'
-		} else if (check <= 90) {
-			patente = 'Diamante III'
-		} else if (check <= 95) {
-			patente = 'Diamante IV'
-		} else if (check <= 100) {
-			patente = 'Diamante V'
-		} else if (check <= 200) {
-			patente = 'Diamante Mestre'
-		} else if (check <= 300) {
-			patente = 'Elite'
-		} else if (check <= 400) {
-			patente = 'Global'
-		} else if (check <= 500) {
-			patente = 'Herói'
-		} else if (check <= 600) {
-			patente = 'Lendário'
-		} else if (check <= 700) {
-			patente = 'Semi-Deus'
-		} else if (check <= 800) {
-			patente = 'Arcanjo'
-		} else if (check <= 900) {
-			patente = 'Demoníaco'
-		} else if (check <= 1000 || check >= 1000) {
-			patente = 'Divindade'
-		}
+		// Sistema que permite ignorar comandos de um grupo, caso você já possua um BOT nele e queira deixar a Íris desligada apenas lá, basta ativar
+		/*if (isGroupMsg && isCmd && !isOwner && !isBot && groupId == 'Insira a id do grupo') return*/
+		
+		// Muda a linguagem para a requisitada no comando newlang
+		if (isGroupMsg && isCmd && functions[0].en.includes(groupId)) { mess = mylang('en') }
+		if (isGroupMsg && isCmd && functions[0].es.includes(groupId)) { mess = mylang('es') }
+		if (isGroupMsg && isCmd && functions[0].pt.includes(groupId)) { mess = mylang('pt') }
+		
+		// Ensina a rodar comandos pelo WhatsApp da BOT
+		if (isBot && isCmd && chatId !== `${botNumber}@c.us`) await kill.reply(ownerNumber[0], mess.howtorun(`wa.me/+${botNumber}`), id)
+		
+		// Mantém a BOT escrevendo caso o dono queira
+		if (isGroupMsg && isTyping.includes(groupId) || isCmd) await kill.simulateTyping(from, true)
 
-        // Sistema do XP - Baseado no de Bocchi - Slavyan
-        if (isGroupMsg && isxp && !isWin(user) && !isBlocked) {
-            try {
-                wait(user)
-                const levelAtual = getLevel(user, nivel)
-                const xpAtual = Math.floor(Math.random() * 30) + 11 // XP de 10 a 40
-                const neededXp = 5 * Math.pow(levelAtual, 2) + 50 * levelAtual + 100
-                addXp(user, xpAtual, nivel)
-                if (neededXp <= getXp(user, nivel)) {
-                    addLevel(user, 1, nivel)
-                    const userLevel = getLevel(user, nivel)
-                    const takeXp = 5 * Math.pow(userLevel, 2) + 50 * userLevel + 100
-                    await kill.reply(from, `*「 +1 NIVEL 」*\n\n➸ *Nome*: ${pushname}\n➸ *XP*: ${getXp(user, nivel)} / ${takeXp}\n➸ *Level*: ${levelAtual} -> ${getLevel(user, nivel)} 🆙 \n➸ *Patente*: *${patente}* 🎉`, id)
-                }
-            } catch (err) { console.log(color('[XP]', 'crimson'), err) }
-        }
-		
-		// Anti Imagens pornograficas
-		if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiPorn && isMedia && isImage && !isCmd && !isOwner) {
+		// Sistema do XP - Baseado no de Bocchi - Slavyan
+		if (isGroupMsg && isxp && !gaming.isWin(user) && !isBlocked) {
 			try {
-				console.log(color('[IMAGEM]', 'red'), color('Verificando a imagem por pornografia...', 'yellow'))
+				await gaming.wait(user);var gainedXP = Math.floor(Math.random() * Number(config.Max_XP_Earn)) + Number(config.Min_XP_Earn);const usuarioLevel = await gaming.getValue(user, nivel, 'level')
+				if (functions[0].companions.includes(user)) { gainedXP = parseInt(gainedXP + (usuarioLevel * 5), 10) } // Beneficio de guilda Companions, XP 5x mais
+				if (functions[0].thieves.includes(user)) { gainedXP = parseInt(gainedXP + (usuarioLevel * 3), 10) } // Beneficio de guilda Thieves, XP 3x mais
+				await gaming.addValue(user, Number(gainedXP), nivel, 'xp')
+				const haveXptoUp = await gaming.getValue(user, nivel, 'xp')
+				if (getReqXP(checkLvL) <= haveXptoUp) {
+					await gaming.addValue(user, 1, nivel, 'level');await gaming.addValue(user, Number(config.Iris_Coin), nivel, 'coin')
+					await kill.reply(from, `*「 +1 NIVEL 」*\n\n➸ *Nome:* ${pushname}\n➸ *XP:* ${await gaming.getValue(user, nivel, 'xp')} / ${getReqXP(checkLvL)}\n➸ *Level:* ${checkLvL} -> ${await gaming.getValue(user, nivel, 'level')} 🆙 \n➸ *Í-Coin:* ${await gaming.getValue(user, nivel, 'coin')}\n➸ *Patente:* *${patente}* 🎉`, id)
+					// Desative ou Apague a "kill.reply" acima se sua Íris floodar mensagens de "Level UP"
+				}
+			} catch (err) { console.log(color('[XP]', 'crimson'), err) }
+		}
+		
+		// Adiciona nível caso tenha ganhado XP demais
+		const justCheckLvL = await gaming.getValue(user, nivel, 'level')
+		const justCheckXP = await gaming.getValue(user, nivel, 'xp')
+		if (justCheckXP >= getReqXP(justCheckLvL)) { await gaming.addValue(user, 1, nivel, 'level') }
+		
+		// Anti Imagens pornográficas
+		if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiPorn && isMedia && isImage && !isCmd && !isOwner && oneImage == 0 && !isBot) {
+			try {
+				oneImage = 1; console.log(color('[IMAGEM]', 'red'), color('Verificando a imagem por pornografia...', 'yellow'))
 				const mediaData = await decryptMedia(message, uaOverride)
 				const getUrl = await upload(mediaData, false)
-				deepai.setApiKey(config.deepai)
+				deepai.setApiKey(config.API_DeepAI)
 				const resp = await deepai.callStandardApi("nsfw-detector", { image: `${getUrl}` })
-				if (resp.output.nsfw_score >= 0.70) {
-					await kill.removeParticipant(groupId, user)
-					console.log(color('[NSFW]', 'red'), color(`A imagem contém traços de contéudo adulto, removerei o → ${pushname} - [${user}]...`, 'yellow'))
-				} else { console.log(color('[SEM NSFW]', 'lime'), color(`→ A imagem não aparententa ser pornografica.`, 'gold')) }
-			} catch (error) { return }
+				if (resp.output.nsfw_score > 0.85) {
+					await kill.removeParticipant(groupId, user).then(async () => { await kill.sendTextWithMentions(from, mess.baninjusto(user) + 'Porno.') })
+					console.log(color('[NSFW]', 'red'), color(`A imagem contém traços de conteúdo adulto, removerei o → ${pushname} - [${user}]...`, 'yellow'));return oneImage = 0
+				} else { console.log(color('[SEM NSFW]', 'lime'), color(`→ A imagem não parece ser pornográfica.`, 'gold'));oneImage = 0 }
+			} catch (error) { return oneImage = 0 }
 		}
 		
-        // Auto-stickers de fotos
-        if (isGroupMsg && autoSticker && isMedia && isImage && !isCmd) {
-            const mediaData = await decryptMedia(message, uaOverride)
-            await kill.sendImageAsSticker(from, `data:${mimetype};base64,${mediaData.toString('base64')}`, { author: config.author, pack: config.pack, keepScale: true })
-        }
+		// Auto-stickers de fotos
+		if (isGroupMsg && autoSticker && isMedia && isImage && !isCmd && !isBot) {
+			const mediaData = await decryptMedia(message, uaOverride)
+			await kill.sendImageAsSticker(from, `data:${mimetype};base64,${mediaData.toString('base64')}`, { author: config.Sticker_Author, pack: config.Sticker_Pack, keepScale: true })
+		}
 		
 		// Auto-sticker de videos & gifs
-		if (isGroupMsg && autoSticker && isMedia && isVideo && !isCmd) {
-			console.log('auto stker v')
+		if (isGroupMsg && autoSticker && isMedia && isVideo && !isCmd && !isBot) {
 			const mediaData = await decryptMedia(message, uaOverride)
-			console.log('enviando')
-			await kill.sendMp4AsSticker(from, `data:${mimetype};base64,${mediaData.toString('base64')}`, null, { stickerMetadata: true, pack: config.pack, author: config.author, fps: 10, crop: true, loop: 0 })
+			await kill.sendMp4AsSticker(from, `data:${mimetype};base64,${mediaData.toString('base64')}`, null, { stickerMetadata: true, pack: config.Sticker_Pack, author: config.Sticker_Author, fps: 10, crop: false, loop: 0 })
 		}
 
-        // Anti links de grupo
-		if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiLink && !isOwner) {
+		// Anti links de grupo
+		if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiLink && !isOwner && oneLink == 0 && !isBot) {
 			try {
 				if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
-					const gplka = await kill.inviteInfo(chats)
+					oneLink = 1; const gplka = await kill.inviteInfo(chats)
 					if (gplka) {
 						console.log(color('[BAN]', 'red'), color('Link de grupo detectado, removendo participante...', 'yellow'))
-						await kill.sendTextWithMentions(from, mess.baninjusto(user) + 'WhatsApp Link.')
-						await sleep(3000)
-						await kill.removeParticipant(groupId, user)
-					} else { console.log(color('[ALERTA]', 'yellow'), color('Link de grupo invalido recebido...', 'yellow')) }
+						await kill.removeParticipant(groupId, user).then(async () => { await kill.sendTextWithMentions(from, mess.baninjusto(user) + 'WhatsApp Link.');return oneLink = 0 })
+					} else { console.log(color('[ALERTA]', 'yellow'), color('Link de grupo invalido recebido...', 'yellow'));oneLink = 0 }
 				}
-			} catch (error) { return }
+			} catch (error) { return oneLink = 0 }
 		}
 
-        // Anti links pornograficos
-        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiPorn && !isOwner) {
+		// Bloqueia todas as travas, seja contato, localização, texto e outros
+		if (isGroupMsg && isAntiTravas && isTrava && !isGroupAdmins && isBotGroupAdmins && !isOwner && oneTrava == 0 && !isBot) {
+			try {
+				oneTrava = 1; console.log(color('[TRAVA]', 'red'), color(`Possível trava recebida pelo → ${pushname} - [${user.replace('@c.us', '')}] em ${name}...`, 'yellow'))
+				let wakeAdm = 'ACORDA - WAKE UP ADM\n\n'
+				var shrekDes = ''
+				for (let i = 0; i < 20; i++) { shrekDes += `⡴⠑⡄⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣤⣀⡀\n⡇⠀⠿⠀⠀⠀⣀⡴⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀\n⠀⠀⠀⢄⣠⠾⠁⣀⣄⡈⠙⣿⣿⣿⣿⣿⣿⣿⣿⣆\n⠀⠀⠀⢀⡀⠁⠀⠀⠈⠙⠛⠂⠈⣿⣿⣿⣿⣿⠿⡿⢿⣆\n⠀⠀⢀⡾⣁⣀⠀⠴⠂⠙⣗⡀⠀⢻⣿⣿⠭⢤⣴⣦⣤⣹⠀⠀⠀⢴⣆ \n⠀⢀⣾⣿⣿⣿⣷⣮⣽⣾⣿⣥⣴⣿⣿⡿⢂⠔⢚⡿⢿⣿⣦⣴⣾⠁⡿ \n⢀⡞⠁⠙⠻⠿⠟⠉⠀⠛⢹⣿⣿⣿⣿⣿⣌⢤⣼⣿⣾⣿⡟⠉\n⣾⣷⣶⠇⠀⠀⣤⣄⣀⡀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n⠉⠈⠉⠀⠀⢦⡈⢻⣿⣿⣿⣶⣶⣶⣶⣤⣽⡹⣿⣿⣿⣿⡇\n⠀⠀⠀⠀⠀⠀⠉⠲⣽⡻⢿⣿⣿⣿⣿⣿⣿⣷⣜⣿⣿⣿⡇\n⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣷⣶⣮⣭⣽⣿⣿⣿⣿⣿⣿⣿\n⠀⠀⠀⠀⠀⣀⣀⣈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇\n⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃\n⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁\n⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉\n\n` }
+				for (let adminls of groupAdmins) { wakeAdm += `➸ @${adminls.replace(/@c.us/g, '')}\n` }
+				await kill.removeParticipant(groupId, user).then(async () => { await kill.setGroupToAdminsOnly(groupId, true) }) // Fecha só para admins e bane o cara que travou
+				await kill.sendText(from, shrekDes, id).then(async () => { await kill.sendTextWithMentions(from, wakeAdm) })  // Anti-Trava BR do Shrek muahauhauha + Chamar ADMS
+				await kill.sendTextWithMentions(from, mess.baninjusto(user) + 'Travas.').then(async () => { await kill.sendText(from, mess.nopanic(), id) }) // Manda o motivo do ban e explica para os membros
+				await kill.sendText(ownerNumber[0], mess.recTrava(user) + `\nAt/No > ${name}`).then(async () => { await kill.contactBlock(user) }) // Avisa o dono do bot e bloqueia o cara
+				await kill.setGroupToAdminsOnly(groupId, false);return oneTrava = 0 // Reabre o grupo
+			} catch (error) { return oneTrava = 0 }
+		}
+		
+		// Bloqueia travas no PV
+		if (!isGroupMsg && !isOwner && isTrava && !isBot) { await kill.contactBlock(user).then(async () => { await kill.sendText(ownerNumber[0], mess.recTrava(user)) }) }
+		// Para limpar automaticamente sem você verificar, adicione "await kill.clearChat(chatId)", o mesmo no de grupos.
+
+		// Anti links pornográficos
+		if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiPorn && !isOwner && oneLink == 0 && !isBot) {
 			try {
 				if (isUrl(chats)) {
-					const inilkn = new URL(chats)
+					oneLink = 1; const inilkn = new URL(chats)
 					console.log(color('[URL]', 'yellow'), 'URL recebida →', inilkn.hostname)
-					isPorn(inilkn.hostname, async (err, status) => {
+					await isPorn(inilkn.hostname, async (err, status) => {
 						if (err) return console.error(err)
 						if (status) {
 							console.log(color('[NSFW]', 'red'), color(`O link é pornografico, removerei o → ${pushname} - [${user.replace('@c.us', '')}]...`, 'yellow'))
-							await kill.sendTextWithMentions(from, mess.baninjusto(user) + 'Porno/Porn.')
-							await sleep(3000)
-							await kill.removeParticipant(groupId, user)
-						} else { console.log(color('[SEM NSFW]', 'lime'), color(`→ O link não possui pornografia.`, 'gold')) }
+							await kill.removeParticipant(groupId, user).then(async () => { await kill.sendTextWithMentions(from, mess.baninjusto(user) + 'Porno/Porn.');return oneLink = 0 })
+						} else { console.log(color('[SEM NSFW]', 'lime'), color(`→ O link não possui pornografia.`, 'gold'));oneLink = 0 }
 					})
 				}
-			} catch (error) { return }
+			} catch (error) { return oneLink = 0 }
 		}
 		
 		// Impede travas ou textos que tenham mais de 5.000 linhas
-		if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && !isOwner) {
+		if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && !isOwner && oneTrava == 0 && !isBot) {
 			try {
-				if (chats.length > 5000) {
-					console.log(color('[TRAVA]', 'red'), color(`Possivel trava recebida pelo → ${pushname} - [${user.replace('@c.us', '')}] em ${name}...`, 'yellow'))
-					await kill.sendTextWithMentions(from, mess.baninjusto(user) + 'Travas.')
-					await sleep(3000)
-					await kill.removeParticipant(groupId, user)
-					await kill.contactBlock(user) // Caso sua bot não seja imune
+				if (chats.length > Number(config.Max_Characters)) {
+					oneTrava = 1; console.log(color('[TRAVA]', 'red'), color(`Possivel trava recebida pelo → ${pushname} - [${user.replace('@c.us', '')}] em ${name}...`, 'yellow'))
+					await kill.removeParticipant(groupId, user).then(async () => { await kill.sendTextWithMentions(from, mess.baninjusto(user) + 'Travas.') }) // Remove e manda o motivo no grupo
+					await kill.sendText(ownerNumber[0], mess.recTrava(user)).then(async () => { await kill.contactBlock(user);return oneTrava = 0 }) // Avisa o dono e então bloqueia a pessoa
 				}
-			} catch (error) { return }
+			} catch (error) { return oneTrava = 0}
 		}
 		
 		// Bloqueia travas no PV que tenham mais de 5.000 linhas
-		if (!isGroupMsg && !isOwner) {
+		if (!isGroupMsg && !isOwner && !isBot) {
 			try {
-				if (chats.length > 5000) {
+				if (chats.length > Number(config.Max_Characters)) {
 					console.log(color('[TRAVA]', 'red'), color(`Possivel trava recebida pelo → ${pushname} - [${user.replace('@c.us', '')}]...`, 'yellow'))
-					await kill.sendText(ownerNumber, mess.recTrava(user))
-					await kill.contactBlock(user) // Caso sua bot não seja imune
+					return await kill.contactBlock(user).then(async () => { await kill.sendText(ownerNumber[0], mess.recTrava(user)) }) // Avisa o dono e bloqueia
 				}
 			} catch (error) { return }
 		}
 		
 		// Ative para banir quem mandar todos os tipos de links (Ative removendo a /* e */)
-		/*if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiLink && !isOwner && isUrl(chats)) { await kill.removeParticipant(groupId, user) }*/
+		/*if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiLink && !isOwner && isUrl(chats) && !isBot) return await kill.removeParticipant(groupId, user)*/
 		
 		// Comandos sem prefix, esse responde se marcar a BOT
 		if (!isFiltered(from) && !isMedia && !isCmd) { try { if (chats.includes(`@${botNumber.replace('@c.us', '')}`)) { await kill.reply(from, chatBotR, id) } } catch (error) { return } }
 		
 		// Caso deseje criar siga o estilo disso abaixo, para usar a base remova a /* e a */
-		/*if (!isFiltered(from) && !isCmd) { try { if (chats == 'Mensagem a receber') await kill.reply(from, 'Resposta para enviar', id) } catch (error) { return } }*/
+		/*if (!isFiltered(from) && !isCmd) { try { if (chats.toLowerCase() == 'Mensagem a receber, sem espaços') await kill.reply(from, 'Resposta para enviar', id) } catch (error) { return } }*/
+		// Se falhar você pode tentar chats.toLowerCase().includes
 		
 		// Impede comandos em PV'S mutados
-		if (!isGroupMsg && isCmd && pvmte && !isOwner ) return console.log(color('> [SILENCE]', 'red'), color(`Ignorando comando de ${pushname} - [${user.replace('@c.us', '')}] pois ele está mutado...`, 'yellow'))
+		if (!isGroupMsg && isCmd && pvmte && !isOwner) return console.log(color('> [SILENCE]', 'red'), color(`Ignorando comando de ${pushname} - [${user.replace('@c.us', '')}] pois ele está mutado...`, 'yellow'))
 		
 		// Impede comandos em grupos mutados
 		if (isGroupMsg && isCmd && !isGroupAdmins && mute && !isOwner) return console.log(color('> [SILENCE]', 'red'), color(`Ignorando comando de ${name} pois ele está mutado...`, 'yellow'))
 
+		// Muta geral, reseta ao reiniciar
+		if (isCmd && !isOwner && isMuteAll == 1) return console.log(color('> [SILENCE]', 'red'), color(`Ignorando comando de ${pushname} pois os PV'S e Grupos estão mutados...`, 'yellow'))
+
 		// Ignora pessoas bloqueadas
 		if (isBlocked && isCmd && !isOwner) return console.log(color('> [BLOCK]', 'red'), color(`Ignorando comando de ${pushname} - [${user.replace('@c.us', '')}] por ele estar bloqueado...`, 'yellow'))
 
-        // Anti Flood para PV'S
-        if (isCmd && isFiltered(from) && !isGroupMsg && !isOwner) { return console.log(color('> [FLOOD AS]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`"[${prefix}${command.toUpperCase()}] [${args.length}]"`, 'red'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`, 'red')) }
+		// Anti Flood para PV'S
+		if (isCmd && isFiltered(from) && !isGroupMsg && !isOwner) { await gaming.addValue(user, Number(-100), nivel, 'xp'); return console.log(color('> [FLOOD AS]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`"[${prefix}${command.toUpperCase()}] [${args.length}]"`, 'red'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`, 'red')) }
 		
 		// Anti Flood para grupos
-        if (isCmd && isFiltered(from) && isGroupMsg && !isOwner) { return console.log(color('> [FLOOD AS]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`"[${prefix}${command.toUpperCase()}] [${args.length}]"`, 'red'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`, 'red'), 'EM', color(`"${name || formattedTitle}"`)) }
+		if (isCmd && isFiltered(from) && isGroupMsg && !isOwner) { await gaming.addValue(user, Number(-100), nivel, 'xp'); return console.log(color('> [FLOOD AS]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`"[${prefix}${command.toUpperCase()}] [${args.length}]"`, 'red'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`, 'red'), 'EM', color(`"${name || formattedTitle}"`)) }
 		
-		// Contador de Mensagens (em grupo)
-        if (isGroupMsg) { getMsg(user, msgcount); addMsg(user, 1, msgcount) }
+		// Contador de Mensagens (em grupo) | Para contar do PV bote sem aspas "isGroupMsg || !isGroupMsg"
+		if (isGroupMsg) { await gaming.getValue(user, nivel, 'msg');await gaming.addValue(user, 1, nivel, 'msg') }
 		
-        // Mensagens no PV
-        if (!isCmd && !isGroupMsg) { return console.log('> MENSAGEM AS', color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`)) }
+		// Mensagens no PV
+		if (!isCmd && !isGroupMsg) { return console.log('> MENSAGEM AS', color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`)) }
 		
 		// Mensagem em Grupo
-        if (!isCmd && isGroupMsg) { return console.log('> MENSAGEM AS', color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`), 'EM', color(`"${name || formattedTitle}"`)) }
+		if (!isCmd && isGroupMsg) { return console.log('> MENSAGEM AS', color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`), 'EM', color(`"${name || formattedTitle}"`)) }
 		
 		// Comandos no PV
 		if (isCmd && !isGroupMsg) { console.log(color(`> COMANDO "[${prefix}${command.toUpperCase()}]"`), 'AS', color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`)) }
 		
 		// Comandos em grupo
-        if (isCmd && isGroupMsg) { console.log(color(`> COMANDO "[${prefix}${command.toUpperCase()}]"`), 'AS', color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`), 'EM', color(`"${name || formattedTitle}"`)) }
-		
-        // Impede SPAM
-        if (isCmd && !isOwner) addFilter(from)
+		if (isCmd && isGroupMsg) { console.log(color(`> COMANDO "[${prefix}${command.toUpperCase()}]"`), 'AS', color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'DE', color(`"${pushname} - [${user.replace('@c.us', '')}]"`), 'EM', color(`"${name || formattedTitle}"`)) }
+
+		// Impede SPAM
+		if (isCmd && !isOwner) await addFilter(from) // Para limitar os usuários em vez do grupo, troque o "from" por "user"
 
         switch(command) {
 			
