@@ -1,3 +1,5 @@
+
+   
 /* ----------- VERY IMPORTANT NOTICE - AVISO MUITO IMPORTANTE - AVISO MUY IMPORTANTE ------------------
 *
 * Construído por Lucas R. - KillovSky, agradecimentos especiais ao grupo Legião Z.
@@ -58,7 +60,6 @@ const { XVDL } = require("xvdl")
 
 // UTILIDADES
 const { color, sleep, ss, isUrl, upload, addFilter, isFiltered, translate } = require('./lib/functions')
-const { getLevel, getMsg, getXp, addLevel, addXp, getRank, isWin, wait, addLimit, addMsg, getLimit } = require('./lib/gaming')
 const poll = require('./lib/poll')
 const config = require('./lib/config/Bot/config.json')
 const { mylang } = require('./lib/lang')
@@ -1165,3 +1166,4 @@ module.exports = kconfig = async (kill, message) => {
         console.log(color('[FALHA GERAL]', 'red'), err)
     }
 }
+
