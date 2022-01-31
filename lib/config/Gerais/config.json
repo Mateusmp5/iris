@@ -1,8 +1,8 @@
 {
 	"Language": "pt",
-	"Owner": ["Insira seu Número@c.us", "Número 2 - Opcional@c.us", "Não remova a @c.us - 3° dono@c.us"],
+	"Owner": ["16993761686@c.us"],
 	"DDI": "55",
-	"Prefix": "/",
+	"Prefix": "!",
 	"API_NoFlash": "INSIRA A API_KEY NOFLASH",
 	"API_RemoveBG": "INSIRA A API_KEY REMOVEBG",
 	"API_WallHaven": "INSIRA A API_KEY WALLHAVEN",
