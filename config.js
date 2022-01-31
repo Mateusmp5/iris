@@ -1112,7 +1112,7 @@ module.exports = kconfig = async (kill, message) => {
 			await kill.sendText(from, mess.instagram(pushname, time))
 			break		
 			
-		case 'seguidoresmundi':
+		case 'seguidoresmundiais':
 			await kill.sendText(from, mess.seguidoresmundi(pushname, time))
 			break	
 			
