@@ -565,7 +565,10 @@ module.exports = kconfig = async (kill, message) => {
 					for (let ids of chatall) {
 						var cvk = await kill.getChatById(ids)
 						if (!cvk.isReadOnly) {
-							await kill.sendText(ids, `[Transmissão do dono da Íris]\n\n${msg}`)
+							await kill.sendText(ids, `
+							*[Mensagem automática]*\n
+							Olá boa, sou o KING BOT da *King Diamonds* !\n
+							Pra nos conhecer digite !menu aqui no grupo ou então em meu privado ${msg}`)
 							if (quotedMsgObj) { sendQFileC(quotedMsgObj, ids) }
 						}
 					}
