@@ -866,7 +866,7 @@ module.exports = kconfig = async (kill, message) => {
             break
 			
 				
-	case 'updates':
+	case 'promo':
             await kill.sendText(from, mess.updates(pushname, time))
             break		
 			
@@ -1094,11 +1094,11 @@ module.exports = kconfig = async (kill, message) => {
 			await kill.sendText(from, mess.diamante(pushname, time))
 			break
 		
-		case 'referencia':
-		case 'referencias':			
-		case 'ref':
-			await kill.sendText(from, mess.referencia(pushname, time))
-			break
+		//case 'referencia':
+		//case 'referencias':			
+		//case 'ref':
+			//await kill.sendText(from, mess.referencia(pushname, time))
+			//break
 		
 		case 'faq':
 			await kill.sendText(from, mess.faq(pushname, time))
